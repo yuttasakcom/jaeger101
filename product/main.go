@@ -5,14 +5,9 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
 	"github.com/uber/jaeger-client-go/config"
-	"os"
 	"time"
 )
 
-func configEnv() {
-	os.Setenv("PROJECT_NAME", "product")
-	os.Setenv("LOGGING_SERVICE", "product")
-}
 
 func startTracing() {
 	cfg := config.Configuration{
@@ -48,10 +43,10 @@ func startTracing() {
 }
 
 func someFunction() {
-	parent := opentracing.GlobalTracer().StartSpan("hello")
+	parent := opentracing.GlobalTracer().StartSpan("someFunction")
 	defer parent.Finish()
 	child := opentracing.GlobalTracer().StartSpan(
-		"world", opentracing.ChildOf(parent.Context()))
+		"test1", opentracing.ChildOf(parent.Context()))
 	defer child.Finish()
 }
 
